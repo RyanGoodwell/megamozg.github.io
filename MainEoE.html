@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>MEGAMOZG — Пиратский поиск</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #f1f1f1;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+.search-container {
+    background: #2a2a2a;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.search-container input {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #1f1f1f;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.search-container button {
+    padding: 12px 20px;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-container button:hover {
+    background: #0056b3;
+}
+
+/* Категории */
+.categories-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px 0;
+}
+
+.category {
+    padding: 10px 20px;
+    background: #333;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+}
+
+.category:hover {
+    background: #007bff;
+}
+
+/* Ссылочные карточки */
+.links-container {
+    padding: 20px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 1200px;
+    margin: auto;
+}
+
+.link-cube {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #444;
+}
+
+.link-cube:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.cube-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.cube-content {
+    margin-top: 10px;
+}
+
+.cube-description {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.cube-link {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.cube-link:hover {
+    background-color: #0056b3;
+}
+
+/* Обратная связь */
+.feedback-section {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #1f1f1f;
+    margin-top: 40px;
+    border-top: 1px solid #333;
+}
+
+.feedback-buttons a {
+    background: #25D366;
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: background 0.3s ease;
+}
+
+.feedback-buttons a:hover {
+    background: #128C7E;
+}
+        /* Анимация появления кубов */
+        @keyframes cubePop {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .link-cube {
+            animation: cubePop 0.7s ease forwards;
+        }
+
+        .link-cube:nth-child(1) { animation-delay: 0.2s; }
+        .link-cube:nth-child(2) { animation-delay: 0.4s; }
+        .link-cube:nth-child(3) { animation-delay: 0.6s; }
+        .link-cube:nth-child(4) { animation-delay: 0.8s; }
+        .link-cube:nth-child(5) { animation-delay: 1.0s; }
+        .link-cube:nth-child(6) { animation-delay: 1.2s; }
+
+        /* Медиа-запросы для мобильных устройств */
+        @media (max-width: 480px) {
+            .search-container {
+                padding: 10px;
+                gap: 5px;
+            }
+
+            .search-container input {
+                width: 70%;
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .search-container button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .categories-container {
+                padding: 15px 0;
+                gap: 5px;
+            }
+
+            .category {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .links-container {
+                padding: 10px;
+                grid-template-columns: 1fr;
+            }
+
+            .link-cube {
+                padding: 15px;
+            }
+
+            .cube-title {
+                font-size: 14px;
+            }
+
+            .cube-description {
+                font-size: 12px;
+            }
+
+            .cube-link {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+
+            .feedback-section {
+                padding: 20px 10px;
+            }
+
+            .feedback-buttons a {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+        }
+
+        /* Медиа-запросы для планшетов */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .search-container {
+                padding: 15px;
+            }
+
+            .search-container input {
+                width: 60%;
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .search-container button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .links-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .link-cube {
+                padding: 15px;
+            }
+
+            .cube-title {
+                font-size: 15px;
+            }
+
+            .cube-description {
+                font-size: 13px;
+            }
+        }
+
+        /* Медиа-запросы для десктопов */
+        @media (min-width: 769px) {
+            .search-container {
+                padding: 20px;
+            }
+
+            .search-container input {
+                width: 50%;
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+
+            .search-container button {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+
+            .links-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .link-cube {
+                padding: 20px;
+            }
+
+            .cube-title {
+                font-size: 16px;
+            }
+
+            .cube-description {
+                font-size: 14px;
+            }
+        }
+
+            .links-container {
+                margin-top: 100px;
+                padding: 15px;
+                gap: 20px;
+            }
+
+            .link-cube {
+                width: 100%;
+                max-width: 300px;
+                height: 200px;
+                font-size: 18px;
+            }
+
+            .link-cube.active {
+                height: 300px;
+            }
+
+            .cube-title {
+                padding: 15px;
+                font-size: 18px;
+            }
+
+            .cube-description {
+                font-size: 12px;
+                padding: 0 10px;
+            }
+
+            .cube-link {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+        @media (max-width: 480px) {
+            .search-container {
+                padding: 10px;
+            }
+
+            .search-container input {
+                width: 100%;
+                max-width: none;
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .search-container button {
+                padding: 10px 15px;
+                font-size: 14px;
+                margin-left: 5px;
+            }
+
+            .links-container {
+                margin-top: 80px;
+                padding: 10px;
+                gap: 15px;
+            }
+
+            .link-cube {
+                width: 100%;
+                max-width: 250px;
+                height: 180px;
+                font-size: 16px;
+            }
+
+            .link-cube.active {
+                height: 280px;
+            }
+
+            .cube-title {
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            .cube-description {
+                font-size: 11px;
+                padding: 0 8px;
+            }
+
+            .cube-link {
+                padding: 7px 14px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Поисковая строка -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Найди что-нибудь крутое...">
+        <button onclick="search()">Поиск...</button>
+    </div>
+
+    <!-- Контейнер для ссылок -->
+    <!-- Категории -->
+    <div class="categories-container">
+        <div class="category" onclick="showCategory('Игры')">
+            <span class="category-title">Игры</span>
+        </div>
+        <div class="category" onclick="showCategory('Приложения')">
+            <span class="category-title">Приложения</span>
+        </div>
+        <div class="category" onclick="showCategory('Музыка')">
+            <span class="category-title">Музыка</span>
+        </div>
+        <div class="category" onclick="showCategory('Фильмы')">
+            <span class="category-title">Фильмы</span>
+        </div>
+        <div class="category" onclick="showCategory('Программы')">
+            <span class="category-title">Программы</span>
+        </div>
+    </div>
+
+    <!-- Контейнер для кубов -->
+    <div class="links-container">
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Nulls Brawl</span>
+            <div class="cube-content">
+                <div class="cube-description">Приватный сервер для Brawl Stars с неограниченными ресурсами и кастомными функциями.</div>
+                <a href="https://nulls.gg/ru/servers/nulls-brawl/" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Nulls Royale</span>
+            <div class="cube-content">
+                <div class="cube-description">Приватный сервер для Clash Royale с уникальными картами и безлимитными гемами.</div>
+                <a href="https://nulls.gg/ru/servers/nulls-royale/" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Приватку Стендофчика</span>
+            <div class="cube-content">
+                <div class="cube-description">Приватный сервер для Standoff 2 с новыми скинами и режимами.</div>
+                <a href="https://standchillow.com/" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Geometry Dash на полную версию</span>
+            <div class="cube-content">
+                <div class="cube-description">Полная версия Geometry Dash с открытыми уровнями и без рекламы.</div>
+                <a href="https://androeed.ru/files/geometry-dash.html" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Minecraft для телефона (бесплатно)</span>
+            <div class="cube-content">
+                <div class="cube-description">Мобильная версия Minecraft с бесплатным доступом ко всем функциям.</div>
+                <a href="https://tlauncher.ru/download-pe_35/" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Minecraft для ПК (бесплатно)</span>
+            <div class="cube-content">
+                <div class="cube-description">Minecraft для ПК через TLauncher с модами и бесплатным доступом.</div>
+                <a href="https://tlauncher.ru/" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Shadow Fight 2 Special Edition (бесплатно)</span>
+            <div class="cube-content">
+                <div class="cube-description">Shadow Fight 2 Special Edition с бесплатным доступом ко всем функциям.</div>
+                <a href="https://androeed.ru/files/shadow-fight-2-special-edition.html" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Shadow Fight 2</span>
+            <div class="cube-content">
+                <div class="cube-description">Shadow Fight 2 с бесплатным доступом ко всем функциям.</div>
+                <a href="https://androeed.ru/files/shadow-fight2--.html" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Nulls Clash of Clans</span>
+            <div class="cube-content">
+                <div class="cube-description">Nulls Clash of Clans с бесплатным доступом ко всем функциям.</div>
+                <a href="https://nulls.gg/ru/servers/nulls-clash/" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Robbery Bob (1 часть)</span>
+            <div class="cube-content">
+                <div class="cube-description">Robbery Bob с бесплатным доступом ко всем функциям.</div>
+                <a href="https://androeed.ru/files/robbery-bob-free.html" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Robbery Bob (2 часть)</span>
+            <div class="cube-content">
+                <div class="cube-description">Robbery Bob 2 с бесплатным доступом ко всем функциям.</div>
+                <a href="https://androeed.ru/files/robbery-bob-2-double-trouble.html" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать IDLE Miner</span>
+            <div class="cube-content">
+                <div class="cube-description">IDLE Miner с бесплатным доступом ко всем функциям.</div>
+                <a href="https://androeed.ru/files/idle-miner-tycoon-lenivii-magnat.html" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Игры">
+            <span class="cube-title">Скачать Fortnite (мобайл)</span>
+            <div class="cube-content">
+                <div class="cube-description">Fortnite на мобайл.</div>
+                <a href="https://store.epicgames.com/ru/download/android?lang=ru&p=fortnite" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Фильмы">
+            <span class="cube-title">Скачать Zona (мобайл)</span>
+            <div class="cube-content">
+                <div class="cube-description">Zona на мобальную версию.</div>
+                <a href="https://android.zona.pub/?ysclid=mb5gzxbkod325525099" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+        <div class="link-cube" data-category="Фильмы">
+            <span class="cube-title">Скачать Zona (PC)</span>
+            <div class="cube-content">
+                <div class="cube-description">Zona на ПК.</div>
+                <a href="https://w1.zona.pub/download?ysclid=mb5ho9j74x568057459" class="cube-link">Перейти к скачиванию</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функция для фильтрации по категориям
+        function showCategory(category) {
+            const cubes = document.querySelectorAll('.link-cube');
+            cubes.forEach(cube => {
+                if (cube.getAttribute('data-category') === category || category === 'Все') {
+                    cube.style.display = 'block';
+                } else {
+                    cube.style.display = 'none';
+                }
+            });
+        }
+
+        // По умолчанию показываем все кубы
+        showCategory('Все');
+
+        // Функция поиска (без API, локальная заглушка)
+        function search() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const cubes = document.querySelectorAll('.link-cube');
+            
+            cubes.forEach(cube => {
+                const title = cube.querySelector('.cube-title').textContent.toLowerCase();
+                const description = cube.querySelector('.cube-description').textContent.toLowerCase();
+                
+                if (title.includes(query) || description.includes(query)) {
+                    cube.style.display = 'block';
+                } else {
+                    cube.style.display = 'none';
+                }
+            });
+        }
+
+        // Поиск по Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                search();
+            }
+        });
+
+        // Генерация частиц для фона
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = `${Math.random() * 5 + 2}px`;
+            particle.style.height = particle.style.width;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Обработка клика по кубу
+        document.querySelectorAll('.link-cube').forEach(cube => {
+            cube.addEventListener('click', function() {
+                // Закрываем все остальные кубы
+                document.querySelectorAll('.link-cube').forEach(otherCube => {
+                    if (otherCube !== cube) {
+                        otherCube.classList.remove('active');
+                    }
+                });
+                // Переключаем активный класс для текущего куба
+                this.classList.toggle('active');
+            });
+        });
+    </script>
+    <!-- Секция обратной связи -->
+    <div class="feedback-section">
+        <h3>Связаться с нами</h3>
+        <div class="feedback-buttons">
+            <a href="https://wa.me/77769220055" class="whatsapp-button" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <style>
+        .feedback-section {
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .feedback-buttons {
+            margin-top: 10px;
+        }
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+        }
+        .whatsapp-button i {
+            margin-right: 8px;
+        }
+    </style>
+</body>
+</html>
